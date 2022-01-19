@@ -8,17 +8,22 @@ def load_menu(menu_name="menu.json"):
     return menu
 
 
-def make_decision(main_menu: list or dict, level=1):
-    print('='*level, end='')
-    if type(main_menu) is dict:
-        index = randint(0, len(main_menu.keys()) - 1)
-        sub_menu_name = list(main_menu.keys())[index]
-        print(sub_menu_name)
-        make_decision(main_menu[sub_menu_name], level+1)
-    else:
-        main_menu = list(main_menu)
-        print(main_menu[randint(0, len(main_menu) - 1)])
-
+def make_decision(main_menu):
+    cur_option = main_menu
+    while type(cur_option) is not str:
+        option_name=None
+        if type(cur_option) is list:
+            index = randint(0, len(cur_option)-1)
+            cur_option = cur_option[index]
+        elif type(cur_option) is dict:
+            index = randint(0, len(cur_option.keys()) - 1)
+            option_name = list(cur_option.keys())[index]
+            cur_option = cur_option[option_name]
+        else:
+            raise NotImplementedError()
+        if option_name is not None:
+            print(option_name)
+    print(cur_option)
 
 if __name__ == '__main__':
     menu = load_menu()
